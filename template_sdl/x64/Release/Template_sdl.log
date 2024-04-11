@@ -1,0 +1,8 @@
+﻿  main.cpp
+  Graphic.cpp
+  Combat.cpp
+C:\Users\PC\OneDrive\Máy tính\P-Test\Template_sdl\main.cpp(3,10): error C1083: Cannot open include file: 'SDL.h': No such file or directory
+C:\Users\PC\OneDrive\Máy tính\P-Test\Template_sdl\Graphic.cpp(1,10): error C1083: Cannot open include file: 'SDL.h': No such file or directory
+C:\Users\PC\OneDrive\Máy tính\P-Test\Template_sdl\Graphic.h(1,10): error C1083: Cannot open include file: 'SDL.h': No such file or directory
+  (compiling source file 'Combat.cpp')
+  
