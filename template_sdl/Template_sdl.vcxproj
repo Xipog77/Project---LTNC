@@ -74,6 +74,10 @@
     <IncludePath>C:\Code_resources\SDL2\include;C:\Code_resources\SDL2_Image\include;C:\Code_resources\SDL2_Mixer\include;C:\Code_resources\SDL2_TTF\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Code_resources\SDL2_Mixer\lib\x64;C:\Code_resources\SDL2\lib\x64;C:\Code_resources\SDL2_Image\lib\x64;C:\Code_resources\SDL2_TTF\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\Code_resources\SDL2\include;C:\Code_resources\SDL2_Image\include;C:\Code_resources\SDL2_Mixer\include;C:\Code_resources\SDL2_TTF\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Code_resources\SDL2_Mixer\lib\x64;C:\Code_resources\SDL2\lib\x64;C:\Code_resources\SDL2_Image\lib\x64;C:\Code_resources\SDL2_TTF\lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -129,6 +133,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -136,17 +141,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Graphic.cpp" />
     <ClCompile Include="NPC.cpp" />
-    <ClCompile Include="Image.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Function.h" />
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Clip.h" />
-    <ClInclude Include="Image.h" />
     <ClInclude Include="NPC.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Image.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
