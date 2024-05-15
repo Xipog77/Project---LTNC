@@ -43,6 +43,8 @@ void Display_Enemy(vector<Enemy> NPC, SDL_Renderer* renderer);
 void Display_Background(CLIP background, int tick, SDL_Renderer* renderer);
 bool ClickBox(int mouseX, int mouseY, SDL_Rect Box);
 
+void Display_Selection(int mouseX, int mouseY, SDL_Texture* ButtonImg, SDL_Texture* SelectImg, SDL_Rect Button, SDL_Rect frame, SDL_Renderer* renderer);
+
 SDL_Window* initWindow();
 
 SDL_Renderer* initRenderer(SDL_Window* window);

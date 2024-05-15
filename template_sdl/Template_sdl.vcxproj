@@ -147,6 +147,13 @@
     <ClInclude Include="Graphic.h" />
     <ClInclude Include="Clip.h" />
     <ClInclude Include="NPC.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Template_sdl.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\Downloads\PIC\a_pirate_captain_named_jack_shroud_by_jau_klahoma_dgbgm75-414w-2x.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

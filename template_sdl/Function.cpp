@@ -47,7 +47,7 @@ int Play(SDL_Renderer* renderer) {
 
     SDL_Texture* spell_texture = loadTexture("Image/NPC/spell strike.png", renderer);
     SDL_Texture* catapult_texture = loadTexture("Image/NPC/catapult.png", renderer);
-   
+
     
     // RECT
     SDL_Rect warrior_frame = { 115, 220, 210, 245 };
@@ -433,7 +433,9 @@ int Play(SDL_Renderer* renderer) {
                 if (catapult_buy) {
                     if (monsters[0].position() < 500) {
                         catapult_tick = (catapult_tick + 1) % 5;
-                        if (catapult_tick == 3)  monsters[0].health -= 100;
+                        if (catapult_tick == 3) { 
+                            gold += 2;
+                            monsters[0].health -= 100; }
                     }
                     else catapult_tick = 0;
                 }
@@ -470,12 +472,8 @@ int Play(SDL_Renderer* renderer) {
                     if (hero.CanAttack(monsters[0].position())) {
                         
                         monsters[0].health -= hero.Attack();
-                        gold += 10;
+                        gold += 2;
 
-                    }
-                    else if (hero.CanAttack(enemy_spawn_point)) {
-                        
-                        enemy_base_health = hero.Attack();
                     }
                     else {
                         
@@ -487,7 +485,10 @@ int Play(SDL_Renderer* renderer) {
                 if (catapult_buy) {
                     if (monsters[0].position() < 500) {
                         catapult_tick = (catapult_tick + 1) % 5;
-                        if (catapult_tick == 3)  monsters[0].health -= 100;
+                        if (catapult_tick == 3) {
+                            gold += 2;
+                            monsters[0].health -= 100;
+                        }
                     }
                     else catapult_tick = 0;
                 }
@@ -510,17 +511,44 @@ int Play(SDL_Renderer* renderer) {
 
     }
 
-    //SDL_DestroyTexture(Background);
+    SDL_DestroyTexture(background_texture);
     SDL_DestroyTexture(ally_base_img);
     SDL_DestroyTexture(enemy_base_img);
+    SDL_DestroyTexture(frame);
     SDL_DestroyTexture(warrior_spawn_img);
+    SDL_DestroyTexture(archer_spawn_img);
+    SDL_DestroyTexture(knight_spawn_img);
+    SDL_DestroyTexture(hero_spawn_img);
+    SDL_DestroyTexture(catapult_spawn_img);
+    SDL_DestroyTexture(spell_spawn_img);
     SDL_DestroyTexture(gold_img);
-        
-    //SDL_DestroyTexture(information);
-
+    SDL_DestroyTexture(warrior_information);
+    SDL_DestroyTexture(archer_information);
+    SDL_DestroyTexture(knight_information);
+    SDL_DestroyTexture(hero_information);
+    SDL_DestroyTexture(catapult_information);
+    SDL_DestroyTexture(spell_information);
+    SDL_DestroyTexture(warrior_attack_texture);
+    SDL_DestroyTexture(warrior_walk_texture);
+    SDL_DestroyTexture(skull_attack_texture);
+    SDL_DestroyTexture(skull_walk_texture);
+    SDL_DestroyTexture(archer_attack_texture);
+    SDL_DestroyTexture(archer_walk_texture);
+    SDL_DestroyTexture(alien_attack_texture);
+    SDL_DestroyTexture(alien_walk_texture);
+    SDL_DestroyTexture(knight_attack_texture);
+    SDL_DestroyTexture(knight_walk_texture);
+    SDL_DestroyTexture(ghost_attack_texture);
+    SDL_DestroyTexture(ghost_walk_texture);
+    SDL_DestroyTexture(hero_walk_texture);
+    SDL_DestroyTexture(hero_attack_texture);
+    SDL_DestroyTexture(boss_attack_texture);
+    SDL_DestroyTexture(boss_walk_texture);
+    SDL_DestroyTexture(spell_texture);
+    SDL_DestroyTexture(catapult_texture);
     monsters.clear();
     heroes.clear();
-
+    SDL_DestroyRenderer(renderer);
     Mix_FreeMusic(music);
         
 
@@ -531,20 +559,24 @@ int Start_Exit(SDL_Renderer * renderer) {
         SDL_Texture* Background = loadTexture("Image/play1.png", renderer);
         SDL_Texture* Start = loadTexture("Image/Start.png", renderer);
         SDL_Texture* Exit = loadTexture("Image/exit.png", renderer);
+        SDL_Texture* Select = loadTexture("Image/select.png", renderer);
 
         SDL_Rect background_frame = { 0, 0, 512, 307 };
         SDL_Rect startButton_frame = {220, 140, 70,35};
         SDL_Rect exitButton_frame = {220, 185, 70, 35};
         SDL_Rect startButton = {SCREEN_WIDTH/2 - 70,SCREEN_HEIGHT/2 - 70 ,140,70};
-        SDL_Rect exitButton = { SCREEN_WIDTH / 2 - 70, SCREEN_HEIGHT/2 ,140,70};
+        SDL_Rect exitButton = { SCREEN_WIDTH / 2 - 70, SCREEN_HEIGHT/2 + 30 ,140,70};
         SDL_Rect background_rect = { 0,0, SCREEN_WIDTH, SCREEN_HEIGHT };
+        
         SDL_Event e;
 
-        
+        int mouseX;
+        int mouseY;
 
         int trangthai = 0;
         while (true) {
 
+            SDL_GetMouseState(&mouseX, &mouseY);
             SDL_PollEvent(&e);
             if (e.type == SDL_QUIT) {
                 trangthai = 2;
@@ -552,10 +584,7 @@ int Start_Exit(SDL_Renderer * renderer) {
             }
             else if (e.type == SDL_MOUSEBUTTONDOWN) {
                 if (e.button.button == SDL_BUTTON_LEFT) {
-                    int mouseX = e.button.x;
-                    int mouseY = e.button.y;
-
-
+                    
                     if (mouseX >= startButton.x && mouseX <= startButton.x + startButton.w &&
                         mouseY >= startButton.y && mouseY <= startButton.y + startButton.h) {
                         // Handle play button click
@@ -579,10 +608,12 @@ int Start_Exit(SDL_Renderer * renderer) {
             }
 
             SDL_RenderClear(renderer);
-
             SDL_RenderCopy(renderer, Background, &background_frame, NULL);
-            SDL_RenderCopy(renderer, Start, &startButton_frame, &startButton);
-            SDL_RenderCopy(renderer, Exit, &exitButton_frame, &exitButton);
+            Display_Selection(mouseX, mouseY, Start, Select, startButton, startButton_frame, renderer);
+            Display_Selection(mouseX, mouseY, Exit, Select, exitButton, exitButton_frame, renderer);
+            
+            //SDL_RenderCopy(renderer, Start, &startButton_frame, &startButton);
+            //SDL_RenderCopy(renderer, Exit, &exitButton_frame, &exitButton);
 
             SDL_RenderPresent(renderer);
 
@@ -599,10 +630,7 @@ int Win_Lose(SDL_Renderer* renderer, int trangthai) {
 
     SDL_Texture* Win = loadTexture("Image/win1.png", renderer);
     SDL_Texture* Lose = loadTexture("Image/lose 1.png", renderer);
-
-
-    /*if (trangthai == 4) Background = loadTexture("Image/win.jpg", renderer);
-    else if (trangthai == 3) Background = loadTexture("Image/lose.png", renderer);*/
+    SDL_Texture* Select = loadTexture("Image/select.png", renderer);
 
     SDL_Texture* PlayAgain = loadTexture("Image/play again.png", renderer);
     SDL_Texture* Exit = loadTexture("Image/exit.png", renderer);
@@ -613,18 +641,12 @@ int Win_Lose(SDL_Renderer* renderer, int trangthai) {
     SDL_Rect exitButton = { SCREEN_WIDTH / 2 - 70, SCREEN_HEIGHT / 2 + 50 ,140,70 };
 
     SDL_Event e;
-
-    //SDL_QueryTexture(PlayAgain, NULL, NULL, &PlayAgainButton.w, &PlayAgainButton.h);
-    //SDL_QueryTexture(Exit, NULL, NULL, &exitButton.w, &exitButton.h);
-
-    //PlayAgainButton.x = SCREEN_WIDTH / 2 - PlayAgainButton.w / 2; //426
-    //PlayAgainButton.y = SCREEN_HEIGHT / 2 - 100; // 300
-    //exitButton.x = SCREEN_WIDTH / 2 - PlayAgainButton.w / 2 + exitButton.w / 2; //5-6
-    //exitButton.y = SCREEN_HEIGHT / 2; //400
-
+    int mouseX;
+    int mouseY;
     
     while (true) {
 
+        SDL_GetMouseState(&mouseX, &mouseY);
         SDL_PollEvent(&e);
         if (e.type == SDL_QUIT) {
             trangthai = 2;
@@ -632,9 +654,7 @@ int Win_Lose(SDL_Renderer* renderer, int trangthai) {
         }
         else if (e.type == SDL_MOUSEBUTTONDOWN) {
             if (e.button.button == SDL_BUTTON_LEFT) {
-                int mouseX = e.button.x;
-                int mouseY = e.button.y;
-
+                
                 if (ClickBox(mouseX, mouseY, PlayAgainButton)) {
                     SDL_DestroyTexture(PlayAgain);
                     SDL_DestroyTexture(Exit);
@@ -646,23 +666,6 @@ int Win_Lose(SDL_Renderer* renderer, int trangthai) {
                     SDL_DestroyTexture(Exit);
                     trangthai = 2;
                 }
-                //if (mouseX >= PlayAgainButton.x && mouseX <= PlayAgainButton.x + PlayAgainButton.w &&
-                //    mouseY >= PlayAgainButton.y && mouseY <= PlayAgainButton.y + PlayAgainButton.h) {
-                //    // Handle play button click
-                //    SDL_DestroyTexture(PlayAgain);
-                //    SDL_DestroyTexture(Exit);
-                //    trangthai = 1;
-
-                //}
-                //if (mouseX >= exitButton.x && mouseX <= exitButton.x + exitButton.w &&
-                //    mouseY >= exitButton.y && mouseY <= exitButton.y + exitButton.h) {
-
-                //    SDL_DestroyTexture(PlayAgain);
-                //    SDL_DestroyTexture(Exit);
-                //    trangthai = 2;
-
-                //}
-                /*trangthai = Start_Exit(mouseX, mouseY, startButton, exitButton, Start, Exit);*/
                 if (trangthai != 0) break;
             }
 
@@ -672,7 +675,8 @@ int Win_Lose(SDL_Renderer* renderer, int trangthai) {
         if (trangthai == 3) SDL_RenderCopy(renderer, Lose, NULL, NULL);
         else if (trangthai == 4) SDL_RenderCopy(renderer, Win, NULL, NULL);
         SDL_RenderCopy(renderer, PlayAgain, &PlayAgainButton_frame, &PlayAgainButton);
-        SDL_RenderCopy(renderer, Exit, &exitButton_frame, &exitButton);
+        Display_Selection(mouseX, mouseY, PlayAgain, Select, PlayAgainButton, PlayAgainButton_frame, renderer);
+        Display_Selection(mouseX, mouseY, Exit, Select, exitButton, exitButton_frame, renderer);
 
         SDL_RenderPresent(renderer);
 

@@ -47,7 +47,7 @@ struct CLIP {
         //SDL_RenderCopy(renderer, texture, &clip, &renderQuad
         
         if (tick == 3 && soundEffect != NULL && !Mix_Playing(chanel)) {
-            Mix_VolumeChunk(soundEffect, MIX_MAX_VOLUME / 3);
+            //Mix_VolumeChunk(soundEffect, MIX_MAX_VOLUME / 2);
             Mix_PlayChannel(chanel, soundEffect, 0);
         }
         SDL_RenderCopy(renderer, texture, &clip, &renderQuad);

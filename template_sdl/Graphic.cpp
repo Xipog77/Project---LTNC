@@ -22,7 +22,6 @@ void logSDLError(std::ostream& os, const std::string& msg, bool fatal)
     }
 }
 
-
 SDL_Window* initWindow() {
 
     SDL_Window* window;
@@ -131,6 +130,24 @@ void Display_SpawnButton(int mouseX, int mouseY, SDL_Texture* spawnImg , SDL_Tex
         information_loc.x = mouseX;
         information_loc.y = mouseY;
         SDL_RenderCopy(renderer, information, &information_pic, &information_loc);
+    }
+    return;
+}
+
+void Display_Selection(int mouseX, int mouseY, SDL_Texture* ButtonImg, SDL_Texture* SelectImg, SDL_Rect Button, SDL_Rect frame, SDL_Renderer* renderer) {
+    
+    SDL_Rect select_frame = { 50, 135, 470 - 50 , 35 };
+    SDL_Rect select_button = select_frame;
+    //select_button.x = select_frame.x;
+    select_button.y = Button.y + select_frame.h/2; //(select_frame.h) / 4 + 10;
+    select_button.x = 370;
+    select_button.w += 30;
+    //SDL_RenderCopy(renderer, SelectImg, &select_frame, &select_button);
+    SDL_RenderCopy(renderer, ButtonImg, &frame, &Button);
+    if (mouseX >= Button.x && mouseX <= Button.x + Button.w &&
+        mouseY >= Button.y && mouseY <= Button.y + Button.h)
+    {
+        SDL_RenderCopy(renderer, SelectImg, &select_frame, &select_button);
     }
     return;
 }
